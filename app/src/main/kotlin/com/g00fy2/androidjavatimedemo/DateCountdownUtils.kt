@@ -1,47 +1,42 @@
 package com.g00fy2.androidjavatimedemo
 
-import java.util.Calendar
+import org.joda.time.DateTime
+import org.joda.time.DateTimeConstants
+import org.joda.time.DateTimeZone
+import org.joda.time.Days
+import org.joda.time.Hours
+import org.joda.time.Minutes
+import org.joda.time.Seconds
 import java.util.Date
-import java.util.GregorianCalendar
-import java.util.Locale
-import java.util.TimeZone
-import kotlin.math.absoluteValue
 
 object DateCountdownUtils {
 
-    const val TIME_ZONE = "Europe/Berlin"
-    private const val SECOND_IN_MILLI = 1000L
-    private const val MINUTE_IN_MILLI = SECOND_IN_MILLI * 60
-    private const val HOUR_IN_MILLI = MINUTE_IN_MILLI * 60
-    private const val DAY_IN_MILLI = HOUR_IN_MILLI * 24
+    private const val TIME_ZONE = "Europe/Berlin"
 
     fun computeCountdownTime(): CountdownResult {
-        val calendar = GregorianCalendar(TimeZone.getTimeZone(TIME_ZONE), Locale.GERMANY)
-        val currentTime = calendar.time
-        val daysDiff = 7 - (calendar[Calendar.DAY_OF_WEEK] - Calendar.SUNDAY)
+        val currentDateMillis = Date().time
+        val currentDateTime = DateTime(currentDateMillis, DateTimeZone.forID(TIME_ZONE))
+        var countdownDateTime = DateTime(currentDateMillis, DateTimeZone.forID(TIME_ZONE)).withTime(19, 0, 1, 0)
+        val daysDiff = DateTimeConstants.SUNDAY - currentDateTime.dayOfWeek
 
-        calendar.set(Calendar.HOUR_OF_DAY, 19)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-
-        if (daysDiff != 7 || calendar.time.before(currentTime)) {
-            calendar.add(Calendar.DAY_OF_MONTH, daysDiff)
+        countdownDateTime = countdownDateTime.plusDays(daysDiff)
+        if (countdownDateTime.isBefore(currentDateTime)) {
+            countdownDateTime = countdownDateTime.plusDays(7)
         }
 
-        var diff = calendar.timeInMillis - currentTime.time + SECOND_IN_MILLI
-        val days = (diff / DAY_IN_MILLI).toInt().absoluteValue
-        diff %= DAY_IN_MILLI
-        val hours = (diff / HOUR_IN_MILLI).toInt().absoluteValue
-        diff %= HOUR_IN_MILLI
-        val minutes = (diff / MINUTE_IN_MILLI).toInt().absoluteValue
-        diff %= MINUTE_IN_MILLI
-        val seconds = (diff / SECOND_IN_MILLI).toInt().absoluteValue
+        var diffDate = currentDateTime
+        val days = Days.daysBetween(diffDate, countdownDateTime).days
+        diffDate = diffDate.plusDays(days)
+        val hours = Hours.hoursBetween(diffDate, countdownDateTime).hours
+        diffDate = diffDate.plusHours(hours)
+        val minutes = Minutes.minutesBetween(diffDate, countdownDateTime).minutes
+        diffDate = diffDate.plusMinutes(minutes)
+        val seconds = Seconds.secondsBetween(diffDate, countdownDateTime).seconds
 
-        return CountdownResult(currentTime, calendar.time, CountdownTime(days, hours, minutes, seconds))
+        return CountdownResult(currentDateTime, countdownDateTime, CountdownTime(days, hours, minutes, seconds))
     }
 
-    data class CountdownResult(val currentTime: Date, val countdownEndTime: Date, val countdownTick: CountdownTime)
+    data class CountdownResult(val currentTime: DateTime, val countdownEndTime: DateTime, val countdownTick: CountdownTime)
 
     data class CountdownTime(val days: Int, val hours: Int, val minutes: Int, val seconds: Int) {
         override fun toString() = "$days days : $hours hr : $minutes min : $seconds sec"

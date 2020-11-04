@@ -10,9 +10,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.TimeZone
+import org.joda.time.DateTimeZone
+import org.joda.time.format.DateTimeFormat
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,12 +26,9 @@ class MainActivity : AppCompatActivity() {
             startCountDown().collect {
                 binding.countdownTickerTextview.text = it.countdownTick.toString()
 
-                val dateTimeFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG)
-                binding.countdownNowLocalTextview.text = dateTimeFormat.format(it.currentTime)
-
-                dateTimeFormat.timeZone = TimeZone.getTimeZone(DateCountdownUtils.TIME_ZONE)
-                binding.countdownNowTextview.text = dateTimeFormat.format(it.currentTime)
-                binding.countdownEndTextview.text = dateTimeFormat.format(it.countdownEndTime)
+                binding.countdownNowLocalTextview.text = DateTimeFormat.longDateTime().print(it.currentTime.withZone(DateTimeZone.getDefault()))
+                binding.countdownNowTextview.text = DateTimeFormat.longDateTime().print(it.currentTime)
+                binding.countdownEndTextview.text = DateTimeFormat.longDateTime().print(it.countdownEndTime)
             }
         }
     }
@@ -41,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         binding.parsedDatesTextview.text = DateParseUtils.parseDateStrings(resources.getStringArray(R.array.test_date_strings)).let {
-            it.joinToString(separator = "\n\n") { item -> "\"" + item.first + "\"\n" + SimpleDateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(item.second) }
+            it.joinToString(separator = "\n\n") { item -> "\"" + item.first + "\"\n" + DateTimeFormat.longDateTime().print(item.second) }
         }
     }
 
