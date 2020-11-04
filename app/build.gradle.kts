@@ -50,6 +50,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.jakewharton.threetenabp:threetenabp:1.3.0")
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
