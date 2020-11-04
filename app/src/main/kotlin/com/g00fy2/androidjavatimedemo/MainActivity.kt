@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
-import java.time.ZoneId
-import java.time.format.FormatStyle
 
 class MainActivity : AppCompatActivity() {
 
