@@ -1,10 +1,10 @@
 package com.g00fy2.androidjavatimedemo
 
-import org.threeten.bp.DayOfWeek
-import org.threeten.bp.Duration
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
+import java.time.DayOfWeek
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Date
 
 object DateCountdownUtils {

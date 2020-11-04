@@ -13,13 +13,11 @@ android {
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
+        applicationIdSuffix = ".cld"
+        multiDexEnabled = true
     }
     buildTypes {
-        getByName("debug") {
-            applicationIdSuffix = ".threeten"
-        }
         getByName("release") {
-            applicationIdSuffix = ".threeten"
             isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -36,6 +34,7 @@ android {
         getByName("main").java.srcDirs("src/main/kotlin")
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -55,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.jakewharton.threetenabp:threetenabp:1.3.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0")

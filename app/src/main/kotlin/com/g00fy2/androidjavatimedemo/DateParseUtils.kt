@@ -1,8 +1,9 @@
 package com.g00fy2.androidjavatimedemo
 
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 object DateParseUtils {
 
