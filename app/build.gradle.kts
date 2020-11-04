@@ -13,13 +13,11 @@ android {
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
+        applicationIdSuffix = ".joda"
+        multiDexEnabled = true
     }
     buildTypes {
-        getByName("debug") {
-            applicationIdSuffix = ".joda"
-        }
         getByName("release") {
-            applicationIdSuffix = ".joda"
             isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
