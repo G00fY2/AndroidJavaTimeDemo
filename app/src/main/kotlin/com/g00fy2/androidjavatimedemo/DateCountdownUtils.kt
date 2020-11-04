@@ -16,7 +16,7 @@ object DateCountdownUtils {
     fun computeCountdownTime(): CountdownResult {
         val currentDateMillis = Date().time
         val currentDateTime = DateTime(currentDateMillis, DateTimeZone.forID(TIME_ZONE))
-        var countdownDateTime = DateTime(currentDateMillis, DateTimeZone.forID(TIME_ZONE)).withTime(19, 0, 1, 0)
+        var countdownDateTime = DateTime(currentDateMillis, DateTimeZone.forID(TIME_ZONE)).withTime(19, 0, 0, 0)
         val daysDiff = DateTimeConstants.SUNDAY - currentDateTime.dayOfWeek
 
         countdownDateTime = countdownDateTime.plusDays(daysDiff)
@@ -31,7 +31,7 @@ object DateCountdownUtils {
         diffDate = diffDate.plusHours(hours)
         val minutes = Minutes.minutesBetween(diffDate, countdownDateTime).minutes
         diffDate = diffDate.plusMinutes(minutes)
-        val seconds = Seconds.secondsBetween(diffDate, countdownDateTime).seconds
+        val seconds = Seconds.secondsBetween(diffDate, countdownDateTime.plusSeconds(1)).seconds
 
         return CountdownResult(currentDateTime, countdownDateTime, CountdownTime(days, hours, minutes, seconds))
     }
