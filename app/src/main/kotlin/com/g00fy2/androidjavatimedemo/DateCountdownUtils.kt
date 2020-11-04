@@ -25,8 +25,9 @@ object DateCountdownUtils {
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
 
-        if (daysDiff != 7 || calendar.time.before(currentTime)) {
-            calendar.add(Calendar.DAY_OF_MONTH, daysDiff)
+        calendar.add(Calendar.DAY_OF_MONTH, daysDiff)
+        if (calendar.time.before(currentTime)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 7)
         }
 
         var diff = calendar.timeInMillis - currentTime.time + SECOND_IN_MILLI
