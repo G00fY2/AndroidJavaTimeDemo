@@ -2,6 +2,8 @@ package com.g00fy2.androidjavatimedemo
 
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
@@ -13,6 +15,7 @@ object DateParseUtils {
             dateStrings.forEach {
                 // size check is not safe to use
                 val date = when {
+                    it.length >= 24 -> OffsetDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME).atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
                     it.length >= 18 -> LocalDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME)
                     else -> LocalDate.parse(it, DateTimeFormatter.ISO_DATE).atStartOfDay()
                 }
