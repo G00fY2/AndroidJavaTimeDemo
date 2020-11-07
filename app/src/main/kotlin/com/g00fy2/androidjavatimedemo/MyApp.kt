@@ -1,9 +1,9 @@
 package com.g00fy2.androidjavatimedemo
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import net.danlew.android.joda.JodaTimeAndroid
 
-class MyApp : Application() {
+class MyApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
