@@ -1,37 +1,43 @@
 package com.g00fy2.androidjavatimedemo
 
-import java.time.DayOfWeek
-import java.time.Duration
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.Date
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
+import kotlin.time.toDuration
 
+@ExperimentalTime
 object DateCountdownUtils {
 
     const val TIME_ZONE = "Europe/Berlin"
 
     fun computeCountdownTime(): CountdownResult {
-        val currentDateMillis = Date().time
-        val currentDateTime = Instant.ofEpochMilli(currentDateMillis).atZone(ZoneId.of(TIME_ZONE)).toLocalDateTime()
-        var countdownDateTime = Instant.ofEpochMilli(currentDateMillis).atZone(ZoneId.of(TIME_ZONE)).toLocalDateTime().withHour(19).withMinute(0).withSecond(0).withNano(0)
+        val now = Clock.System.now()
+        val currentDateTime = now.toLocalDateTime(TimeZone.of(TIME_ZONE))
+        var countdownDateTime = LocalDateTime(currentDateTime.year, currentDateTime.month, currentDateTime.dayOfMonth, 19, 0, 0, 0)
         val daysDiff = DayOfWeek.SUNDAY.value - currentDateTime.dayOfWeek.value
 
-        countdownDateTime = countdownDateTime.plusDays(daysDiff.toLong())
-        if (countdownDateTime.isBefore(currentDateTime)) {
-            countdownDateTime = countdownDateTime.plusDays(7)
+        countdownDateTime = countdownDateTime.toInstant(TimeZone.of(TIME_ZONE)).plus(daysDiff, DateTimeUnit.DAY, TimeZone.of(TIME_ZONE)).toLocalDateTime(TimeZone.of(TIME_ZONE))
+        if (countdownDateTime < currentDateTime) {
+            countdownDateTime = countdownDateTime.toInstant(TimeZone.of(TIME_ZONE)).plus(7, DateTimeUnit.DAY, TimeZone.of(TIME_ZONE)).toLocalDateTime(TimeZone.of(TIME_ZONE))
         }
 
-        var duration = Duration.between(currentDateTime, countdownDateTime.plusSeconds(1))
-        val days = duration.toDays()
-        duration = duration.minusDays(days)
-        val hours = duration.toHours()
-        duration = duration.minusHours(hours)
-        val minutes = duration.toMinutes()
-        duration = duration.minusMinutes(minutes)
-        val seconds = duration.seconds
+        var duration = countdownDateTime.toInstant(TimeZone.of(TIME_ZONE)).plus(1, DateTimeUnit.SECOND, TimeZone.of(TIME_ZONE)) - now
+        val days = duration.inDays.toInt()
+        duration = duration.minus(days.toDuration(DurationUnit.DAYS))
+        val hours = duration.inHours.toInt()
+        duration = duration.minus(hours.toDuration(DurationUnit.HOURS))
+        val minutes = duration.inMinutes.toInt()
+        duration = duration.minus(minutes.toDuration(DurationUnit.MINUTES))
+        val seconds = duration.inSeconds.toInt()
 
-        return CountdownResult(currentDateTime, countdownDateTime, CountdownTime(days.toInt(), hours.toInt(), minutes.toInt(), seconds.toInt()))
+        return CountdownResult(currentDateTime, countdownDateTime, CountdownTime(days, hours, minutes, seconds))
     }
 
     data class CountdownResult(val currentTime: LocalDateTime, val countdownEndTime: LocalDateTime, val countdownTick: CountdownTime)

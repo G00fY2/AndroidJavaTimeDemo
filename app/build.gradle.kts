@@ -13,7 +13,7 @@ android {
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
-        applicationIdSuffix = ".cld"
+        applicationIdSuffix = ".kotlinx"
         multiDexEnabled = true
     }
     buildTypes {
@@ -47,6 +47,7 @@ android {
 repositories {
     google()
     mavenCentral()
+    maven("https://kotlin.bintray.com/kotlinx/")
     jcenter {
         content {
             includeModule("org.jetbrains.trove4j", "trove4j") // required by com.android.tools.lint:lint-gradle
@@ -56,6 +57,7 @@ repositories {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.1.0")
 
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
