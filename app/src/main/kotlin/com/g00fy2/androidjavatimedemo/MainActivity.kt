@@ -3,6 +3,7 @@ package com.g00fy2.androidjavatimedemo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.g00fy2.androidjavatimedemo.DateCountdownUtils.TIME_ZONE
 import com.g00fy2.androidjavatimedemo.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -10,9 +11,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.toJavaLocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
@@ -29,13 +31,16 @@ class MainActivity : AppCompatActivity() {
             startCountDown().collect {
                 binding.countdownTickerTextview.text = it.countdownTick.toString()
 
-                binding.countdownNowLocalTextview.text = it.currentTime
-                        .toInstant(TimeZone.of(DateCountdownUtils.TIME_ZONE))
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
-                        .toString()
+                binding.countdownNowLocalTextview.text = it.currentTime.toJavaLocalDateTime()
+                        .atZone(ZoneId.of(TIME_ZONE))
+                        .withZoneSameInstant(ZoneId.systemDefault())
+                        .toLocalDateTime()
+                        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).withZone(ZoneId.systemDefault()))
 
-                binding.countdownNowTextview.text = it.currentTime.toString()
-                binding.countdownEndTextview.text = it.countdownEndTime.toString()
+                binding.countdownNowTextview.text = it.currentTime.toJavaLocalDateTime()
+                        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).withZone(ZoneId.of(TIME_ZONE)))
+                binding.countdownEndTextview.text = it.countdownEndTime.toJavaLocalDateTime()
+                        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).withZone(ZoneId.of(TIME_ZONE)))
             }
         }
     }
@@ -45,7 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.parsedDatesTextview.text = DateParseUtils.parseDateStrings(resources.getStringArray(R.array.test_date_strings)).let {
             it.joinToString(separator = "\n\n") { item ->
-                "\"" + item.first + "\"\n" + (item.second?.toString() ?: "unsupported")
+                "\"" + item.first + "\"\n" + (item.second?.toJavaLocalDateTime()?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).withZone(ZoneId.systemDefault()))
+                        ?: "unsupported")
             }
         }
     }

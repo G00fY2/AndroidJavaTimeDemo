@@ -7,7 +7,6 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDate
 import kotlinx.datetime.toLocalDateTime
 
-
 object DateParseUtils {
 
     fun parseDateStrings(dateStrings: Array<String>): List<Pair<String, LocalDateTime?>> {
