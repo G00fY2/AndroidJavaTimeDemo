@@ -1,9 +1,9 @@
 package com.g00fy2.androidjavatimedemo
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.jakewharton.threetenabp.AndroidThreeTen
 
-class MyApp : Application() {
+class MyApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
