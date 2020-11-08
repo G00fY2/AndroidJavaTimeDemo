@@ -2,12 +2,13 @@
 This repo contains an Android app with simple date usecases, implemented with different frameworks/libraries. The idea is to compare the dex count and APK size.
 
 ## Usecases
-* start a hardcoded countdown to the next Sunday 19:00:00 Central European Time (CET).
+* start a hardcoded countdown to the next Sunday 19:00:00 Central European Time (CET)
 * parse different ISO 8601 strings, typically used when communicating with a backend
 
 ## Implementations
-There are 4 branches, each using a different technology
+There are 5 branches, each using a different technology
 
+* [koitlinx-datetime core library desugaring](https://github.com/G00fY2/AndroidJavaTimeDemo/tree/kotlinx)
 * [java.time core library desugaring](https://github.com/G00fY2/AndroidJavaTimeDemo/tree/JavaTime)
 * [ThreeTenABP Android](https://github.com/G00fY2/AndroidJavaTimeDemo/tree/ThreeTenABP)
 * [JodaTime Android](https://github.com/G00fY2/AndroidJavaTimeDemo/tree/JodaTime)
