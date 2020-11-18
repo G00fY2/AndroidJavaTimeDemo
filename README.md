@@ -6,7 +6,7 @@ This repo contains an Android app with simple date usecases, implemented with di
 * parse different ISO 8601 strings, typically used when communicating with a backend
 
 ## Implementations
-There are 5 branches, each using a different technology (all using AGP 4.1.0, with D8/R8 enabled)
+In this repository there are 5 branches, each using a different technology (all using AGP 4.1.0, with D8/R8 enabled)
 
 |     Branch    |     Version   |  Description  |
 | ------------- | ------------- | ------------- |
