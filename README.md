@@ -5,6 +5,8 @@ This repo contains an Android app with simple date usecases, implemented with di
 * start a hardcoded countdown to the next Sunday 19:00:00 Central European Time (CET)
 * parse different ISO 8601 strings, typically used when communicating with a backend
 
+[<img src="https://raw.githubusercontent.com/G00fY2/AndroidJavaTimeDemo/JavaTime/media/device-2020-11-20-192105.png" width=160>](https://raw.githubusercontent.com/G00fY2/AndroidJavaTimeDemo/JavaTime/media/device-2020-11-20-192105.png)
+
 ## Implementations
 In this repository there are 5 branches, each using a different technology (all using AGP 4.1.0, with D8/R8 enabled)
 
