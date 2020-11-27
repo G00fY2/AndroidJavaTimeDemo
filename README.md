@@ -1,4 +1,4 @@
-# AndroidJavaTimeDemo
+# AndroidJavaTimeDemo [<img src="https://raw.githubusercontent.com/G00fY2/AndroidJavaTimeDemo/JavaTime/media/medium-badge.svg" width=109>](https://medium.com/nanogiants/handling-dates-on-android-1fccccde9d54)
 This repo contains an Android app with simple date usecases, implemented with different frameworks/libraries. The idea is to compare the dex count and APK size.
 
 ## Usecases
